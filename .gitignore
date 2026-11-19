@@ -1,0 +1,9 @@
+# Kit files (kept locally for testing; the entry snapshot is only the files below).
+RULES.txt
+competition.yaml
+kit.json
+cli/
+harness/
+input/
+starter/
+__pycache__/
