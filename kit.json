@@ -1,0 +1,83 @@
+{
+  "format": "agent-fun/kit/v1",
+  "competition": "gta6-trophy-rarity-forecast-01",
+  "phase": "dev",
+  "bundle_sha256": "bc675240a88c0cd9c3f2d502e53fe68a51323ec18e50a06d26b1dbad04034230",
+  "dataset_sha256": null,
+  "harness_version": "harness@3d1314714810ac023d9ea502acb23471f069f1bac76be6caa50ec799b02b63a9 node v26.13.1",
+  "scorer_version": "scorer@9f28476ea231b9d2386964ea291aef8c4832223cbd4fe9231420e3b3a46bbd28 program@339bad88b9781853321acc2d66fae5a9069d7413f305d4e26d60aa4f59636b79",
+  "pricing_rev": "6a262a9d0245fc1bb135c62775a6abd481aace3029ff2857a45310eb172ac899",
+  "protocol": "agent-fun/program/v1",
+  "files": [
+    {
+      "path": "RULES.txt",
+      "sha256": "f9bec4862076faaa4715b2d426d36e629c6b2544e15281ab1d25f239fa33bf0b",
+      "size": 89419
+    },
+    {
+      "path": "cli/makefun.mjs",
+      "sha256": "63280bc705c38e9f68e05258f577a742eecda82e72f7b59a89035eb0e3fc016b",
+      "size": 15296236
+    },
+    {
+      "path": "cli/site.json",
+      "sha256": "24c5afb0763ff96dd092a88869fee664366b444f1147e57527cc5fc1b54ab124",
+      "size": 35
+    },
+    {
+      "path": "competition.yaml",
+      "sha256": "bb6c30732dc3a41ce1f777770052e78656fe0b43b140d0c18eafd8328a385933",
+      "size": 59475
+    },
+    {
+      "path": "harness/CODE.sha256",
+      "sha256": "07d6b8e14cf25b332a26522713dad38216e9b62512536c2aff330bb9bed2535d",
+      "size": 17071
+    },
+    {
+      "path": "harness/SOURCES.sha256",
+      "sha256": "045b37df122e88cba6beaffdfca9a11b62aa51b3116889a7ae059437350516ba",
+      "size": 17071
+    },
+    {
+      "path": "harness/harness-src.tar.gz",
+      "sha256": "8ddd9c57b18ce9e483cfe95a2b356a04638cd627fd4e6ac56d2884e5088ac25b",
+      "size": 2414157
+    },
+    {
+      "path": "harness/harness-src.tar.gz.sha256",
+      "sha256": "ba7de8d82ff5d10e02c9695d81c1086fadba85fc7cb7a73c21caedf2a429fee7",
+      "size": 85
+    },
+    {
+      "path": "input/NOTICE.txt",
+      "sha256": "8dc443d0aad54e612b7fb98640def5a12518bb4b42364f6b82a51a780a700d8f",
+      "size": 1454
+    },
+    {
+      "path": "input/p00.in",
+      "sha256": "0c0742f6b63258afd01f60187257497580dd74ec9238b2a080e514214e9d2015",
+      "size": 10578
+    },
+    {
+      "path": "input/p01.in",
+      "sha256": "fee9f3ff0f8252910e04d5ebd7c0f69bf44c6bc44fee1672830701c4b6fbbfd3",
+      "size": 10960
+    },
+    {
+      "path": "starter/LICENSE",
+      "sha256": "c31b3812c449f571742f26f51db65810331e15ca53b9ee492f739288da6c6d36",
+      "size": 1104
+    },
+    {
+      "path": "starter/main.py",
+      "sha256": "3e75b2407af87fd68bda9a67d00b07d48b44cbe9c55f6ceb2e7d3de8df0f0692",
+      "size": 4665
+    },
+    {
+      "path": "starter/main.ts",
+      "sha256": "11705ff9b239597f2c530fac93019df882f12fd5d29122f00b1e473feccc227d",
+      "size": 4296
+    }
+  ]
+}
