@@ -27,9 +27,11 @@ tracked N**, per trophy, and projects N to the target.
   wins — a launch curve bends down, it does not keep doubling) and capped at
   30× the last count. Earners are clipped to `[E_last, 0.9·N_target]`.
   Spread combines the fit residual, the extrapolation distance
-  (`|b − 1| · log(N_target / N_last)`) and a small random-walk term, kept well
-  under the house baseline's `0.5·√days` — a wide band pays pinball at every
-  quantile, so it must earn its width.
+  (`|b − 1| · log(N_target / N_last)`) and a small random-walk term
+  (0.03 per day, down from 0.05 in v1 — the narrower term scored better
+  on all four synthetic final-like cases), kept well under the house
+  baseline's `0.5·√days` — a wide band pays pinball at every quantile,
+  so it must earn its width.
 
 - **Flat history (the practice cases: every read identical, 638 players).**
   Exophase refreshes hours apart, so a flat stretch ends in a jump. The rules
@@ -37,18 +39,20 @@ tracked N**, per trophy, and projects N to the target.
   638 → 3,868 players tracked and 943 → 4,276 trophies earned, every rate but
   the one at 100% lower. That pins the refresh down: all 3,230 new players
   earned the instant trophy (it stays 100%), and only 103 more trophies were
-  earned across the other 54 — the new cohort had barely played. Those 103
-  are spread by earliness weight `w = √(E0) · EARLY`, where `EARLY` is the
-  trophy's rate on the public Exophase page later on launch day (a trophy's
-  difficulty ordering is stable; the constants are baked in, the program
-  never touches the network). This weight family is the one whose implied
-  house-baseline practice loss is ~1.51 with a typical miss ~0.68, matching
-  the house's published practice figures (pure dilution would give 1.69 /
-  0.73; a uniform spread 1.39). The median is that diluted rate; the spread
-  (0.20 logit) covers the remaining uncertainty about how the 103 split.
-  For any other flat case the same refresh shape is scaled by the horizon
-  (a refresh becomes likely over ~5 hours) instead of assuming the page
-  never moves.
+  earned across the other 54 — the new cohort had barely played. The v1
+  entry spread those 103 by a single earliness weight
+  `w = √(E0) · EARLY` and paid 0.0642 on the server, while a local estimate
+  against that same family said 0.043: the sealed truth is more
+  concentrated on the top trophies than any single family. So v2 averages
+  **three neighbouring spread families in logit space** —
+  `√(E0+1) · EARLY`, `E0^0.5 · EARLY^1.5`, `E0^1.0 · EARLY^0.5` — and
+  lets the spread follow how much the families disagree
+  (`0.04 + 0.4 · disagreement` in logits): narrow where they agree, wide
+  where they split. The median is also clipped to stay between pure
+  dilution (nobody new earns it) and the last observed rate (nobody
+  un-earns it). For any other flat case the same refresh shape is scaled
+  by the horizon (a refresh becomes likely over ~5 hours) instead of
+  assuming the page never moves.
 
 Deterministic, no network, no randomness. Runtime ~0.1 s per case (cap 8 s).
 
@@ -56,22 +60,26 @@ Deterministic, no network, no randomness. Runtime ~0.1 s per case (cap 8 s).
 
 - **Practice (p00/p01), model-based estimate.** The true practice answers
   are sealed server-side, so no exact practice loss can be computed locally.
-  Against the refresh family identified from the house's published practice
-  figures (baseline loss ~1.51, typical miss ~0.68, coverage 0 — reproduced
-  exactly, 1.5093 / 0.6771 / 0.00, by the `√E0 · EARLY` refresh shape), this
-  entry scores **loss ≈ 0.043** (typical miss 0.003 pp, 90% coverage 0.98);
-  across the neighbouring shapes of that family (live-rate powers 1.0–1.5,
-  `E0 · live`) it scores **0.043–0.057**. Against the already-disfavoured
-  shapes (pure dilution, uniform split) it scores 0.11–0.13. For reference
-  the house persistence baseline scores ~1.51 on the same truths.
+  v1 scored 0.0642 on the server. Across six neighbouring refresh shapes
+  consistent with that server loss (live-rate powers 0.5–1.65, `E0` powers
+  0–1), this v2 entry scores **worst 0.0518, mean 0.0429** (per shape
+  0.0285 / 0.0477 / 0.0518 / 0.0487 / 0.0492 / 0.0315), vs v1's worst
+  0.0644 / mean 0.0568 on the same shapes — better on every shape.
+  For reference the house persistence baseline scores ~1.51 on the same
+  truths.
 - **Final-like synthetic cases.** Four synthetic f00-style cases (refresh
   histories to 21 Nov, targets at 26 Nov with known elasticities and player
   growth, including a flat-elasticity case and a wide-elasticity case): this
-  entry **mean loss 0.166** vs **house baseline 0.343** (per case 0.113 /
-  0.125 / 0.195 / 0.232 vs 0.300 / 0.284 / 0.442 / 0.347). Honest caveat:
-  the final horizon (4.5 days) is far harder than the 90-minute practice —
-  a low practice loss does not guarantee a low final loss; what is being
-  chased is a forecast that beats the best house entry on the final.
+  entry **mean loss 0.1590** vs **house baseline 0.3431** (per case 0.1018 /
+  0.1163 / 0.1940 / 0.2238 vs 0.2997 / 0.2844 / 0.4418 / 0.3466), vs v1's
+  0.1663 (0.1133 / 0.1248 / 0.1949 / 0.2322) — better on every case.
+  Honest caveat: three extra trend guards (rescaling to a fitted total,
+  a 1.05× historical-max rate cap, blending toward the last rate) were
+  tried and reverted — they made these synthetic cases worse (mean
+  0.1955). The final horizon (4.5 days) is far harder than the 90-minute
+  practice — a low practice loss does not guarantee a low final loss;
+  what is being chased is a forecast that beats the best house entry on
+  the final.
 
 ## Run it
 
